@@ -20,6 +20,14 @@ local PixlLib = {}
 
 PixlLib.Flags = {}
 
+local function getGuiParent()
+	if gethui then
+		return gethui()
+	end
+	-- studio / kein executor -> fallback
+	return Players.LocalPlayer:WaitForChild("PlayerGui")
+end
+
 function PixlLib:Save()
 	if not self.config or not self.config.Saving then
 		return
@@ -106,13 +114,11 @@ function PixlLib:CreateWindow(config)
 	self.Flags = {}
 	self.config = config.Configuration
 
-	local playerGui = Players.LocalPlayer:WaitForChild("PlayerGui")
-
 	local window
 	local destroyScope = vide.mount(function()
 		window = Window.new(config, notifications, self.Flags, onChanged)
 		return window.node
-	end, playerGui)
+	end, getGuiParent())
 
 	self._unmount = function()
 		destroyScope()
@@ -1929,6 +1935,8 @@ function Window.new(config, notifications, flags, onChanged)
 	vide.cleanup(keyConn)
 
 	self.node = create("ScreenGui")({
+		Name = "PixlLib",
+
 		create("UIScale")({ Scale = scale }),
 
 		create("Frame")({ -- mainframe (footer removed -> shorter)
@@ -4798,38 +4806,24 @@ local ObjectTree = {
                 },
                 {
                     {
-                        10,
+                        3,
                         2,
                         {
-                            "Paragraph"
+                            "Button"
                         }
                     },
                     {
-                        7,
+                        8,
                         2,
                         {
-                            "InputBox"
+                            "Label"
                         }
                     },
                     {
-                        11,
+                        4,
                         2,
                         {
-                            "Slider"
-                        }
-                    },
-                    {
-                        14,
-                        2,
-                        {
-                            "Window"
-                        }
-                    },
-                    {
-                        6,
-                        2,
-                        {
-                            "Dropdown"
+                            "Colors"
                         }
                     },
                     {
@@ -4840,10 +4834,17 @@ local ObjectTree = {
                         }
                     },
                     {
-                        9,
+                        12,
                         2,
                         {
-                            "Notification"
+                            "Tab"
+                        }
+                    },
+                    {
+                        10,
+                        2,
+                        {
+                            "Paragraph"
                         }
                     },
                     {
@@ -4875,131 +4876,6 @@ local ObjectTree = {
                                 },
                                 {
                                     {
-                                        45,
-                                        1,
-                                        {
-                                            "pepeeltoro41_ui-labs@2.4.2"
-                                        },
-                                        {
-                                            {
-                                                46,
-                                                2,
-                                                {
-                                                    "ui-labs"
-                                                },
-                                                {
-                                                    {
-                                                        59,
-                                                        1,
-                                                        {
-                                                            "Typing"
-                                                        }
-                                                    },
-                                                    {
-                                                        57,
-                                                        2,
-                                                        {
-                                                            "StoryCreators"
-                                                        }
-                                                    },
-                                                    {
-                                                        58,
-                                                        2,
-                                                        {
-                                                            "Types"
-                                                        }
-                                                    },
-                                                    {
-                                                        48,
-                                                        1,
-                                                        {
-                                                            "Controls"
-                                                        },
-                                                        {
-                                                            {
-                                                                54,
-                                                                2,
-                                                                {
-                                                                    "Utils"
-                                                                }
-                                                            },
-                                                            {
-                                                                50,
-                                                                2,
-                                                                {
-                                                                    "ControlConversion"
-                                                                }
-                                                            },
-                                                            {
-                                                                51,
-                                                                2,
-                                                                {
-                                                                    "ControlUtils"
-                                                                }
-                                                            },
-                                                            {
-                                                                49,
-                                                                2,
-                                                                {
-                                                                    "AdvancedControls"
-                                                                }
-                                                            },
-                                                            {
-                                                                53,
-                                                                2,
-                                                                {
-                                                                    "PrimitiveControls"
-                                                                }
-                                                            },
-                                                            {
-                                                                52,
-                                                                2,
-                                                                {
-                                                                    "DatatypeControls"
-                                                                }
-                                                            }
-                                                        }
-                                                    },
-                                                    {
-                                                        61,
-                                                        2,
-                                                        {
-                                                            "Version"
-                                                        }
-                                                    },
-                                                    {
-                                                        55,
-                                                        2,
-                                                        {
-                                                            "Environment"
-                                                        }
-                                                    },
-                                                    {
-                                                        60,
-                                                        2,
-                                                        {
-                                                            "Utils"
-                                                        }
-                                                    },
-                                                    {
-                                                        56,
-                                                        1,
-                                                        {
-                                                            "Libraries"
-                                                        }
-                                                    },
-                                                    {
-                                                        47,
-                                                        1,
-                                                        {
-                                                            "ControlTypings"
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    },
-                                    {
                                         17,
                                         1,
                                         {
@@ -5014,17 +4890,31 @@ local ObjectTree = {
                                                 },
                                                 {
                                                     {
-                                                        40,
+                                                        31,
                                                         2,
                                                         {
-                                                            "spring"
+                                                            "graph"
                                                         }
                                                     },
                                                     {
-                                                        32,
+                                                        21,
                                                         2,
                                                         {
-                                                            "implicit_effect"
+                                                            "batch"
+                                                        }
+                                                    },
+                                                    {
+                                                        33,
+                                                        2,
+                                                        {
+                                                            "indexes"
+                                                        }
+                                                    },
+                                                    {
+                                                        35,
+                                                        2,
+                                                        {
+                                                            "mount"
                                                         }
                                                     },
                                                     {
@@ -5042,20 +4932,6 @@ local ObjectTree = {
                                                         }
                                                     },
                                                     {
-                                                        31,
-                                                        2,
-                                                        {
-                                                            "graph"
-                                                        }
-                                                    },
-                                                    {
-                                                        20,
-                                                        2,
-                                                        {
-                                                            "apply"
-                                                        }
-                                                    },
-                                                    {
                                                         42,
                                                         2,
                                                         {
@@ -5063,101 +4939,17 @@ local ObjectTree = {
                                                         }
                                                     },
                                                     {
-                                                        23,
+                                                        37,
                                                         2,
                                                         {
-                                                            "changed"
+                                                            "root"
                                                         }
                                                     },
                                                     {
-                                                        29,
+                                                        32,
                                                         2,
                                                         {
-                                                            "effect"
-                                                        }
-                                                    },
-                                                    {
-                                                        19,
-                                                        2,
-                                                        {
-                                                            "action"
-                                                        }
-                                                    },
-                                                    {
-                                                        30,
-                                                        2,
-                                                        {
-                                                            "flags"
-                                                        }
-                                                    },
-                                                    {
-                                                        39,
-                                                        2,
-                                                        {
-                                                            "source"
-                                                        }
-                                                    },
-                                                    {
-                                                        35,
-                                                        2,
-                                                        {
-                                                            "mount"
-                                                        }
-                                                    },
-                                                    {
-                                                        26,
-                                                        2,
-                                                        {
-                                                            "create"
-                                                        }
-                                                    },
-                                                    {
-                                                        34,
-                                                        2,
-                                                        {
-                                                            "lib"
-                                                        }
-                                                    },
-                                                    {
-                                                        43,
-                                                        2,
-                                                        {
-                                                            "untrack"
-                                                        }
-                                                    },
-                                                    {
-                                                        41,
-                                                        2,
-                                                        {
-                                                            "switch"
-                                                        }
-                                                    },
-                                                    {
-                                                        28,
-                                                        2,
-                                                        {
-                                                            "derive"
-                                                        }
-                                                    },
-                                                    {
-                                                        38,
-                                                        2,
-                                                        {
-                                                            "show"
-                                                        }
-                                                    },
-                                                    {
-                                                        33,
-                                                        2,
-                                                        {
-                                                            "indexes"
-                                                        }
-                                                    },
-                                                    {
-                                                        22,
-                                                        2,
-                                                        {
-                                                            "branch"
+                                                            "implicit_effect"
                                                         }
                                                     },
                                                     {
@@ -5168,17 +4960,24 @@ local ObjectTree = {
                                                         }
                                                     },
                                                     {
-                                                        36,
+                                                        40,
                                                         2,
                                                         {
-                                                            "read"
+                                                            "spring"
                                                         }
                                                     },
                                                     {
-                                                        21,
+                                                        28,
                                                         2,
                                                         {
-                                                            "batch"
+                                                            "derive"
+                                                        }
+                                                    },
+                                                    {
+                                                        43,
+                                                        2,
+                                                        {
+                                                            "untrack"
                                                         }
                                                     },
                                                     {
@@ -5189,10 +4988,212 @@ local ObjectTree = {
                                                         }
                                                     },
                                                     {
-                                                        37,
+                                                        38,
                                                         2,
                                                         {
-                                                            "root"
+                                                            "show"
+                                                        }
+                                                    },
+                                                    {
+                                                        41,
+                                                        2,
+                                                        {
+                                                            "switch"
+                                                        }
+                                                    },
+                                                    {
+                                                        36,
+                                                        2,
+                                                        {
+                                                            "read"
+                                                        }
+                                                    },
+                                                    {
+                                                        34,
+                                                        2,
+                                                        {
+                                                            "lib"
+                                                        }
+                                                    },
+                                                    {
+                                                        39,
+                                                        2,
+                                                        {
+                                                            "source"
+                                                        }
+                                                    },
+                                                    {
+                                                        23,
+                                                        2,
+                                                        {
+                                                            "changed"
+                                                        }
+                                                    },
+                                                    {
+                                                        19,
+                                                        2,
+                                                        {
+                                                            "action"
+                                                        }
+                                                    },
+                                                    {
+                                                        29,
+                                                        2,
+                                                        {
+                                                            "effect"
+                                                        }
+                                                    },
+                                                    {
+                                                        20,
+                                                        2,
+                                                        {
+                                                            "apply"
+                                                        }
+                                                    },
+                                                    {
+                                                        30,
+                                                        2,
+                                                        {
+                                                            "flags"
+                                                        }
+                                                    },
+                                                    {
+                                                        26,
+                                                        2,
+                                                        {
+                                                            "create"
+                                                        }
+                                                    },
+                                                    {
+                                                        22,
+                                                        2,
+                                                        {
+                                                            "branch"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    {
+                                        45,
+                                        1,
+                                        {
+                                            "pepeeltoro41_ui-labs@2.4.2"
+                                        },
+                                        {
+                                            {
+                                                46,
+                                                2,
+                                                {
+                                                    "ui-labs"
+                                                },
+                                                {
+                                                    {
+                                                        58,
+                                                        2,
+                                                        {
+                                                            "Types"
+                                                        }
+                                                    },
+                                                    {
+                                                        47,
+                                                        1,
+                                                        {
+                                                            "ControlTypings"
+                                                        }
+                                                    },
+                                                    {
+                                                        57,
+                                                        2,
+                                                        {
+                                                            "StoryCreators"
+                                                        }
+                                                    },
+                                                    {
+                                                        55,
+                                                        2,
+                                                        {
+                                                            "Environment"
+                                                        }
+                                                    },
+                                                    {
+                                                        60,
+                                                        2,
+                                                        {
+                                                            "Utils"
+                                                        }
+                                                    },
+                                                    {
+                                                        48,
+                                                        1,
+                                                        {
+                                                            "Controls"
+                                                        },
+                                                        {
+                                                            {
+                                                                51,
+                                                                2,
+                                                                {
+                                                                    "ControlUtils"
+                                                                }
+                                                            },
+                                                            {
+                                                                53,
+                                                                2,
+                                                                {
+                                                                    "PrimitiveControls"
+                                                                }
+                                                            },
+                                                            {
+                                                                52,
+                                                                2,
+                                                                {
+                                                                    "DatatypeControls"
+                                                                }
+                                                            },
+                                                            {
+                                                                50,
+                                                                2,
+                                                                {
+                                                                    "ControlConversion"
+                                                                }
+                                                            },
+                                                            {
+                                                                49,
+                                                                2,
+                                                                {
+                                                                    "AdvancedControls"
+                                                                }
+                                                            },
+                                                            {
+                                                                54,
+                                                                2,
+                                                                {
+                                                                    "Utils"
+                                                                }
+                                                            }
+                                                        }
+                                                    },
+                                                    {
+                                                        61,
+                                                        2,
+                                                        {
+                                                            "Version"
+                                                        }
+                                                    },
+                                                    {
+                                                        59,
+                                                        1,
+                                                        {
+                                                            "Typing"
+                                                        }
+                                                    },
+                                                    {
+                                                        56,
+                                                        1,
+                                                        {
+                                                            "Libraries"
                                                         }
                                                     }
                                                 }
@@ -5204,10 +5205,10 @@ local ObjectTree = {
                         }
                     },
                     {
-                        3,
+                        14,
                         2,
                         {
-                            "Button"
+                            "Window"
                         }
                     },
                     {
@@ -5218,24 +5219,31 @@ local ObjectTree = {
                         }
                     },
                     {
-                        12,
+                        6,
                         2,
                         {
-                            "Tab"
+                            "Dropdown"
                         }
                     },
                     {
-                        8,
+                        11,
                         2,
                         {
-                            "Label"
+                            "Slider"
                         }
                     },
                     {
-                        4,
+                        7,
                         2,
                         {
-                            "Colors"
+                            "InputBox"
+                        }
+                    },
+                    {
+                        9,
+                        2,
+                        {
+                            "Notification"
                         }
                     }
                 }
@@ -5248,59 +5256,59 @@ local ObjectTree = {
 local LineOffsets = {
     8,
     11,
-    138,
-    214,
-    235,
-    257,
-    704,
-    852,
-    890,
-    1004,
-    1068,
-    1240,
-    1313,
-    1428,
-    [18] = 2014,
-    [19] = 2026,
-    [20] = 2053,
-    [21] = 2217,
-    [22] = 2242,
-    [23] = 2284,
-    [24] = 2304,
-    [25] = 2349,
-    [26] = 2425,
-    [27] = 2537,
-    [28] = 2652,
-    [29] = 2672,
-    [30] = 2686,
-    [31] = 2700,
-    [32] = 3023,
-    [33] = 3150,
-    [34] = 3273,
-    [35] = 3395,
-    [36] = 3408,
-    [37] = 3415,
-    [38] = 3452,
-    [39] = 3490,
-    [40] = 3523,
-    [41] = 3853,
-    [42] = 3969,
-    [43] = 3998,
-    [44] = 4025,
-    [46] = 4158,
-    [49] = 4224,
-    [50] = 4292,
-    [51] = 4330,
-    [52] = 4350,
-    [53] = 4389,
-    [54] = 4434,
-    [55] = 4452,
-    [57] = 4526,
-    [58] = 4608,
-    [60] = 4722,
-    [61] = 4774,
-    [62] = 4776,
-    [63] = 4779
+    144,
+    220,
+    241,
+    263,
+    710,
+    858,
+    896,
+    1010,
+    1074,
+    1246,
+    1319,
+    1434,
+    [18] = 2022,
+    [19] = 2034,
+    [20] = 2061,
+    [21] = 2225,
+    [22] = 2250,
+    [23] = 2292,
+    [24] = 2312,
+    [25] = 2357,
+    [26] = 2433,
+    [27] = 2545,
+    [28] = 2660,
+    [29] = 2680,
+    [30] = 2694,
+    [31] = 2708,
+    [32] = 3031,
+    [33] = 3158,
+    [34] = 3281,
+    [35] = 3403,
+    [36] = 3416,
+    [37] = 3423,
+    [38] = 3460,
+    [39] = 3498,
+    [40] = 3531,
+    [41] = 3861,
+    [42] = 3977,
+    [43] = 4006,
+    [44] = 4033,
+    [46] = 4166,
+    [49] = 4232,
+    [50] = 4300,
+    [51] = 4338,
+    [52] = 4358,
+    [53] = 4397,
+    [54] = 4442,
+    [55] = 4460,
+    [57] = 4534,
+    [58] = 4616,
+    [60] = 4730,
+    [61] = 4782,
+    [62] = 4784,
+    [63] = 4787
 }
 
 -- Misc AOT variable imports
